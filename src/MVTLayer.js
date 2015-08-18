@@ -190,7 +190,7 @@ module.exports = L.TileLayer.Canvas.extend({
       /**
        * Index the feature by bounding box into rbush.
        */
-      var box = bbox(vtf, uniqueID);
+      var box = bbox(vtf, layerCtx.tileSize, uniqueID);
       toIndex.push(box);
 
       /**
@@ -439,8 +439,8 @@ module.exports = L.TileLayer.Canvas.extend({
 
 });
 
-function bbox(vtf, id) {
-  var divisor = vtf.extent / ctx.tileSize;
+function bbox(vtf, tileSize, id) {
+  var divisor = vtf.extent / tileSize;
 
   var minX = Number.POSITIVE_INFINITY;
   var maxX = Number.NEGATIVE_INFINITY;
