@@ -538,7 +538,7 @@ module.exports = L.TileLayer.MVTSource = L.TileLayer.Canvas.extend({
 
     var tileIndexPoint = globalPoint.divideBy(tileSize).floor();
     var tilePoint = globalPoint.subtract(tileIndexPoint.multiplyBy(tileSize));
-    tilePoint.tileID = "" + tileIndexPoint.x + ":" + tileIndexPoint.y;
+    tilePoint.tileID = "" + this.map.getZoom() + ":" + tileIndexPoint.x + ":" + tileIndexPoint.y;
     return tilePoint;
   }
 
