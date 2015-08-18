@@ -295,11 +295,9 @@ module.exports = L.TileLayer.Canvas.extend({
   },
 
   featureAt: function(tileID, tilePoint) {
-    var zoom = this.map.getZoom();
-    var xy = tileID.split(":").slice(1, 3).join(":");
-    var canvas = this._tiles[xy];
-    if(!canvas) return null; //break out
+    if (!this._canvasIDToFeatures[tileID]) return null; // break out
 
+    var zoom = this.map.getZoom();
     var x = tilePoint.x;
     var y = tilePoint.y;
 
@@ -325,7 +323,7 @@ module.exports = L.TileLayer.Canvas.extend({
             radius = feature.style.radius;
           }
 
-          paths = feature.getPathsForTile(evt.tileID);
+          paths = feature.getPathsForTile(tileID);
           for (j = 0; j < paths.length; j++) {
             //Builds a circle of radius feature.style.radius (assuming circular point symbology).
             if(in_circle(paths[j][0].x, paths[j][0].y, radius, x, y)){
@@ -336,7 +334,7 @@ module.exports = L.TileLayer.Canvas.extend({
           break;
 
         case 2: //LineString
-          paths = feature.getPathsForTile(evt.tileID);
+          paths = feature.getPathsForTile(tileID);
           for (j = 0; j < paths.length; j++) {
             if (feature.style) {
               var distance = this._getDistanceFromLine(tilePoint, paths[j]);
@@ -350,7 +348,7 @@ module.exports = L.TileLayer.Canvas.extend({
           break;
 
         case 3: //Polygon
-          paths = feature.getPathsForTile(evt.tileID);
+          paths = feature.getPathsForTile(tileID);
           for (j = 0; j < paths.length; j++) {
             if (this._isPointInPoly(tilePoint, paths[j])) {
               nearest = feature;
