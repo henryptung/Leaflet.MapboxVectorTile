@@ -295,10 +295,9 @@ module.exports = L.TileLayer.Canvas.extend({
   },
 
   featureAt: function(tileID, tilePixelPoint) {
-    var tileXy = tileID.split(":").slice(1, 3).join(":");
-    if (!this._canvasIDToFeatures[tileID] || !this._tiles[tileXy]) return null; // break out
+    if (!this._canvasIDToFeatures[tileID]) return null; // break out
 
-    var zoom = this.map.getZoom();
+    var zoom = tileID.split(":")[0];
     var x = tilePixelPoint.x;
     var y = tilePixelPoint.y;
 
