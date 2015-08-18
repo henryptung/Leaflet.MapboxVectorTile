@@ -296,8 +296,9 @@ module.exports = L.TileLayer.Canvas.extend({
     this.setLowestCount(count);
   },
 
-  featureAt: function(tileID, tilePoint) {
-    if (!this._canvasIDToFeatures[tileID] || !this._tiles[tilePoint.x + ":" + tilePoint.y]) return null; // break out
+  featureAt: function(tileID, tilePixelPoint) {
+    var tileXy = tileID.split(":").slice(1, 3).join(":");
+    if (!this._canvasIDToFeatures[tileID] || !this._tiles[tileXy]) return null; // break out
 
     var zoom = this.map.getZoom();
     var x = tilePoint.x;
