@@ -299,8 +299,8 @@ module.exports = L.TileLayer.Canvas.extend({
     if (!this._canvasIDToFeatures[tileID] || !this._tiles[tileXy]) return null; // break out
 
     var zoom = this.map.getZoom();
-    var x = tilePoint.x;
-    var y = tilePoint.y;
+    var x = tilePixelPoint.x;
+    var y = tilePixelPoint.y;
 
     var index = this._canvasIDToFeatures[tileID].index;
 
@@ -338,7 +338,7 @@ module.exports = L.TileLayer.Canvas.extend({
           paths = feature.getPathsForTile(tileID);
           for (j = 0; j < paths.length; j++) {
             if (feature.style) {
-              var distance = this._getDistanceFromLine(tilePoint, paths[j]);
+              var distance = this._getDistanceFromLine(tilePixelPoint, paths[j]);
               var thickness = (feature.selected && feature.style.selected ? feature.style.selected.size : feature.style.size);
               if (distance < thickness / 2 + this.options.lineClickTolerance && distance < minDistance) {
                 nearest = feature;
@@ -351,7 +351,7 @@ module.exports = L.TileLayer.Canvas.extend({
         case 3: //Polygon
           paths = feature.getPathsForTile(tileID);
           for (j = 0; j < paths.length; j++) {
-            if (this._isPointInPoly(tilePoint, paths[j])) {
+            if (this._isPointInPoly(tilePixelPoint, paths[j])) {
               nearest = feature;
               minDistance = 0; // point is inside the polygon, so distance is zero
             }
